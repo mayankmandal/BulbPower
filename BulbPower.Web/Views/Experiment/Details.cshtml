@@ -1,0 +1,32 @@
+﻿@model BulbPower.Models.Experiment
+
+@{
+    ViewData["Title"] = "Experiment Details";
+}
+
+<div>
+    <h3> @Model.ExperimentName</h3>
+    <span>Status: @Model.ExperimentStatus </span>
+    <span>
+        <form asp-action="SendNextPerson" method="post">
+            <input type="hidden" name="id" value="@Model.ExperimentId" />
+            <button type="submit">Send Next Person</button>
+        </form>
+    </span>
+    <span>@Model.NumberOfBulbs bulbs </span>
+    <span>@Model.NumberOfPeople people </span>
+    <span>Last Exited Person Number: @Model.LastExitedPersonNumber</span>
+    <span>
+        <form asp-action="ResetExperiment" method="post">
+            <input type="hidden" name="id" value="@Model.ExperimentId" />
+            <button type="submit">Reset Experiment</button>
+        </form>
+    </span>
+</div>
+
+<div>
+    @foreach (var bulbState in Model.ExperimentBulbStates)
+    {
+        <img src="@(bulbState.BulbState ? "~/images/BulbState/Bulb_On.jpg" : "~/images/BulbState/Bulb_Off.jpg")" width="65%" />
+    }
+</div>

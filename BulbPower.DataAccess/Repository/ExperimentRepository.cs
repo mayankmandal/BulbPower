@@ -44,7 +44,7 @@ namespace BulbPower.DataAccess.Repository
                 NumberOfBulbs = numberOfBulbs,
                 ExperimentName = $"{numberOfPeople}-people-{numberOfBulbs}-bulbs",
                 ExperimentStatus = ExperimentStatus.NotStarted,
-                CreatedDateTime = DateTime.UtcNow
+                CreatedDateTime = DateTime.Now
             };
 
             _db.Experiments.Add(experiment);
@@ -57,7 +57,7 @@ namespace BulbPower.DataAccess.Repository
         {
             var bulbStateToUpdate = _db.ExperimentBulbStates.Find(experimentBulbStateId);
             bulbStateToUpdate.BulbState = bulbState;
-            bulbStateToUpdate.ToggledOnDateTime = DateTime.UtcNow;
+            bulbStateToUpdate.ToggledOnDateTime = DateTime.Now;
 
             _db.SaveChanges();
         }
