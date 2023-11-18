@@ -3,24 +3,27 @@
 @{
     ViewData["Title"] = "Experiment Details";
 }
-
+<br />
+<br />
+<br />
 <div>
     <h3> @Model.ExperimentName</h3>
-    <span>Status: @Model.ExperimentStatus </span>
-    <span>
-        <form asp-action="SendNextPerson" method="post">
+    <br />
+    <span>Status: @Model.ExperimentStatus
+        <form style="display:inline" asp-action="ResetExperiment" method="post">
             <input type="hidden" name="id" value="@Model.ExperimentId" />
-            <button type="submit">Send Next Person</button>
+            <button style="padding-inline:10px; border-radius:5px" type="submit">Reset Experiment</button>
         </form>
-    </span>
-    <span>@Model.NumberOfBulbs bulbs </span>
-    <span>@Model.NumberOfPeople people </span>
-    <span>Last Exited Person Number: @Model.LastExitedPersonNumber</span>
-    <span>
-        <form asp-action="ResetExperiment" method="post">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        @Model.NumberOfBulbs bulbs &nbsp;&nbsp;
+        @Model.NumberOfPeople people &nbsp;&nbsp;
+    Last Exited Person Number: @Model.LastExitedPersonNumber
+        &nbsp;&nbsp;
+        <form style="display:inline" asp-action="SendNextPerson" method="post">
             <input type="hidden" name="id" value="@Model.ExperimentId" />
-            <button type="submit">Reset Experiment</button>
+            <button style="padding-inline:10px; border-radius:5px" type="submit">Send Next Person</button>
         </form>
+        
     </span>
 </div>
 
