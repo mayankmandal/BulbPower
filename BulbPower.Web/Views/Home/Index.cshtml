@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BulbPower.Models.Experiment>
+
+@{
+    ViewData["Title"] = "Project Bulb";
+}
+
+<h1>Main Home Page</h1>
+
+<div>
+    <h2>Create New Experiment</h2>
+    <form asp-action="CreateExperiment" method="post">
+        <label>Number of People:</label>
+        <input type="number" name="numberOfPeople" required>
+        <label>Number of Bulbs:</label>
+        <input type="number" name="numberOfBulbs" required>
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+<div>
+    <h2>Existing Experiments</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Experiment Name</th>
+                <th>Number of Bulbs</th>
+                <th>Number of People</th>
+                <th>Status</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var experiment in Model)
+            {
+                <tr>
+                    <td>@experiment.ExperimentName</td>
+                    <td>@experiment.NumberOfBulbs</td>
+                    <td>@experiment.NumberOfPeople</td>
+                    <td>@experiment.ExperimentStatus</td>
+                    <td><a asp-controller="Experiment" asp-action="Details" asp-route-id="@experiment.ExperimentId">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
