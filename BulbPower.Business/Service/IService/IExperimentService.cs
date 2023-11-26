@@ -16,7 +16,8 @@ namespace BulbPower.Business.Service.IService
         void SendNextPerson(int experimentId);
         void ResetExperiment(int experimentId);
         Experiment GetExperiment(int experimentId);
-        ExperimentVM GetExperimentVM(int id);
+        ExperimentVM GetExperimentVM(int experimentId);
         IEnumerable<ExperimentVM> ShowAllExperimentVMs();
+        void DeleteExperiment(int experimentId);
     }
 }

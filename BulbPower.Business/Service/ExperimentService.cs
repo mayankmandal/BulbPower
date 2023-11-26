@@ -1,4 +1,5 @@
 ﻿using BulbPower.Business.Service.IService;
+using BulbPower.DataAccess.Repository;
 using BulbPower.DataAccess.Repository.IRepository;
 using BulbPower.Models;
 using BulbPower.Models.ViewModels;
@@ -24,9 +25,9 @@ namespace BulbPower.Business.Service
             return _db.GetExperiment(experimentId);
         }
 
-        public ExperimentVM GetExperimentVM(int id)
+        public ExperimentVM GetExperimentVM(int experimentId)
         {
-            var experiment = _db.GetExperiment(id);
+            var experiment = _db.GetExperiment(experimentId);
 
             if (experiment == null)
             {
@@ -127,6 +128,10 @@ namespace BulbPower.Business.Service
             _db.ResetBulbStates(experimentId);
             _db.UpdateExperimentStatus(experimentId, ExperimentStatus.NotStarted);
             _db.UpdateLastExitedPerson(experimentId, 0);
+        }
+        public void DeleteExperiment(int experimentId)
+        {
+            _db.RemoveExperiment(experimentId);
         }
     }
 }

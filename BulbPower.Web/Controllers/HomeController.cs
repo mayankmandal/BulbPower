@@ -27,6 +27,12 @@ namespace BulbPower.Web.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult DeleteExperiment(int id)
+        {
+            _experimentService.DeleteExperiment(id);
+            return RedirectToAction("Index");
+        }
 
     }
 }

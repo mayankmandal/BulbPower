@@ -115,5 +115,18 @@ namespace BulbPower.DataAccess.Repository
                 _db.SaveChanges();
             }
         }
+        public void RemoveExperiment(int experimentId)
+        {
+            var experimentToDelete =  _db.Experiments.Find(experimentId);
+            var bulbStatesToDelete = _db.ExperimentBulbStates
+                .Where(e => e.ExperimentId == experimentId)
+                .ToList();
+            if (experimentToDelete != null)
+            {
+                _db.Remove(experimentToDelete);
+                _db.RemoveRange(experimentToDelete);
+                _db.SaveChanges();
+            }
+        }
     }
 }
