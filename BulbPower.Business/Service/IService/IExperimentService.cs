@@ -1,4 +1,5 @@
 ﻿using BulbPower.Models;
+using BulbPower.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace BulbPower.Business.Service.IService
         void SendNextPerson(int experimentId);
         void ResetExperiment(int experimentId);
         Experiment GetExperiment(int experimentId);
+        ExperimentVM GetExperimentVM(int id);
+        IEnumerable<ExperimentVM> ShowAllExperimentVMs();
     }
 }

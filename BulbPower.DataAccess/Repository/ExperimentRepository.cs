@@ -35,6 +35,11 @@ namespace BulbPower.DataAccess.Repository
                 .Where(e => e.ExperimentId == experimentId)
                 .ToList();
         }
+        public void CreateExperimentBulbState(ExperimentBulbState bulbState)
+        {
+            _db.ExperimentBulbStates.Add(bulbState);
+            _db.SaveChanges();
+        }
 
         public Experiment CreateExperiment(int numberOfPeople, int numberOfBulbs)
         {
@@ -48,6 +53,22 @@ namespace BulbPower.DataAccess.Repository
             };
 
             _db.Experiments.Add(experiment);
+            _db.SaveChanges();
+
+            // Initialize ExperimentBulbStates
+            for (int bulbNumber = 1; bulbNumber <= numberOfBulbs; bulbNumber++)
+            {
+                var bulbState = new ExperimentBulbState
+                {
+                    ExperimentId = experiment.ExperimentId,
+                    BulbNumber = bulbNumber,
+                    BulbState = false,  // You can set the initial state as needed
+                    ToggledOnDateTime = DateTime.Now
+                };
+
+                _db.ExperimentBulbStates.Add(bulbState);
+            }
+
             _db.SaveChanges();
 
             return experiment;

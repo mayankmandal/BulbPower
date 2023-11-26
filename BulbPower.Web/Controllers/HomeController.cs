@@ -14,14 +14,17 @@ namespace BulbPower.Web.Controllers
 
         public IActionResult Index()
         {
-            var existingExperiments = _experimentService.ShowAllExperiments();
+            var existingExperiments = _experimentService.ShowAllExperimentVMs();
             return View(existingExperiments);
         }
 
         [HttpPost]
         public IActionResult CreateExperiment(int numberOfPeople, int numberOfBulbs)
         {
-            _experimentService.CreateExperiment(numberOfPeople, numberOfBulbs);
+            if (ModelState.IsValid)
+            {
+                _experimentService.CreateExperiment(numberOfPeople, numberOfBulbs);
+            }
             return RedirectToAction("Index");
         }
 

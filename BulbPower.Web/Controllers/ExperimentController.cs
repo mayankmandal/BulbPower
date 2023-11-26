@@ -14,13 +14,13 @@ namespace BulbPower.Web.Controllers
 
         public IActionResult Details(int id)
         {
-            var experiment = _experimentService.GetExperiment(id);
-            if (experiment == null)
+            var experimentVm = _experimentService.GetExperimentVM(id);
+            if (experimentVm == null)
             {
                 return NotFound();
             }
 
-            return View(experiment);
+            return View(experimentVm);
         }
 
         public IActionResult SendNextPerson(int id)

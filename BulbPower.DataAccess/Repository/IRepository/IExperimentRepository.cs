@@ -18,7 +18,6 @@ namespace BulbPower.DataAccess.Repository.IRepository
         void UpdateExperimentStatus(int experimentId, ExperimentStatus status);
         void ResetBulbStates(int experimentId);
         void UpdateLastExitedPerson(int experimentId, int lastExitedPersonNumber);
-
-
+        void CreateExperimentBulbState(ExperimentBulbState bulbState);
     }
 }

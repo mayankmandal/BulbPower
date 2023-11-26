@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BulbPower.Models.Experiment>
+﻿@model IEnumerable<ExperimentVM>
 
 @{
     ViewData["Title"] = "Project Bulb";
@@ -10,8 +10,10 @@
     <h3>Create New Experiment</h3>
     <form asp-action="CreateExperiment" method="post" >
         <input type="number" name="numberOfPeople" placeholder="Number of People" class="rounded" required>
+        <span asp-validation-for="@Model.FirstOrDefault().Experiment.NumberOfPeople" class="text-danger"></span>
         &nbsp;&nbsp;
         <input type="number" name="numberOfBulbs" placeholder="Number of Bulbs" class="rounded" required>
+        <span asp-validation-for="@Model.FirstOrDefault().Experiment.NumberOfBulbs" class="text-danger"></span>
         &nbsp;&nbsp;
         <button type="submit" style="padding-inline:30px; border-radius:5px">Create</button>
     </form>
@@ -37,11 +39,12 @@
             @foreach (var experiment in Model)
             {
                 <tr>
-                    <td>@experiment.ExperimentName</td>
-                    <td>@experiment.NumberOfBulbs</td>
-                    <td>@experiment.NumberOfPeople</td>
-                    <td>@experiment.ExperimentStatus
-                        <a class="btn btn-outline-dark mx-xl-3" style="padding-inline:30px; border-radius:5px" asp-controller="Experiment" asp-action="Details" asp-route-id="@experiment.ExperimentId">Details</a>
+                    <td>@experiment.Experiment.ExperimentName</td>
+                    <td>@experiment.Experiment.NumberOfBulbs</td>
+                    <td>@experiment.Experiment.NumberOfPeople</td>
+                    <td>
+                        @experiment.Experiment.ExperimentStatus
+                        <a class="btn btn-outline-dark mx-xl-3" style="padding-inline:30px; border-radius:5px" asp-controller="Experiment" asp-action="Details" asp-route-id="@experiment.Experiment.ExperimentId">Details</a>
                     </td>
                 </tr>
             }

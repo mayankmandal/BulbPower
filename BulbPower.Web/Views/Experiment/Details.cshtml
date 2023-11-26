@@ -1,35 +1,51 @@
-﻿@model BulbPower.Models.Experiment
+﻿@model ExperimentVM
 
 @{
     ViewData["Title"] = "Experiment Details";
 }
 <br />
+<div class="col-3 col-md-2">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary border form-control" >Back to Experiment</a>
+</div>
 <br />
 <br />
 <div>
-    <h3> @Model.ExperimentName</h3>
+    <h3> @Model.Experiment.ExperimentName</h3>
     <br />
-    <span>Status: @Model.ExperimentStatus
+    <span>
+        Status: @Model.Experiment.ExperimentStatus
         <form style="display:inline" asp-action="ResetExperiment" method="post">
-            <input type="hidden" name="id" value="@Model.ExperimentId" />
+            <input type="hidden" name="id" value="@Model.Experiment.ExperimentId" />
             <button style="padding-inline:10px; border-radius:5px" type="submit">Reset Experiment</button>
         </form>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        @Model.NumberOfBulbs bulbs &nbsp;&nbsp;
-        @Model.NumberOfPeople people &nbsp;&nbsp;
-    Last Exited Person Number: @Model.LastExitedPersonNumber
+        @Model.Experiment.NumberOfBulbs bulbs &nbsp;&nbsp;
+        @Model.Experiment.NumberOfPeople people &nbsp;&nbsp;
+        Last Exited Person Number: @Model.Experiment.LastExitedPersonNumber
         &nbsp;&nbsp;
         <form style="display:inline" asp-action="SendNextPerson" method="post">
-            <input type="hidden" name="id" value="@Model.ExperimentId" />
+            <input type="hidden" name="id" value="@Model.Experiment.ExperimentId" />
             <button style="padding-inline:10px; border-radius:5px" type="submit">Send Next Person</button>
         </form>
         
     </span>
 </div>
 
-<div>
-    @foreach (var bulbState in Model.ExperimentBulbStates)
+<div class="row">
+    @foreach (var bulb in Model.ExperimentBulbStateList)
     {
-        <img src="@(bulbState.BulbState ? "~/images/BulbState/Bulb_On.jpg" : "~/images/BulbState/Bulb_Off.jpg")" width="65%" />
+        <div class="col-md-1">
+            <div class="text-center">
+            @if (bulb.BulbState)
+            {
+                    <img src="~/images/BulbState/Bulb_On.png" width="50px" height="50px" />
+            }
+            else
+            {
+                    <img src="~/images/BulbState/Bulb_Off.png" width="50px" height="50px" />
+            }
+            <div>@bulb.BulbNumber</div>
+            </div>
+        </div>
     }
 </div>

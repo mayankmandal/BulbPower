@@ -14,8 +14,10 @@ namespace BulbPower.Models
         [Key]
         public int ExperimentId { get; set; }
         [Required]
+        [Range(1,100)]
         public int NumberOfPeople { get; set; }
         [Required]
+        [Range(1,100)]
         public int NumberOfBulbs { get; set; }
         public string ExperimentName { get; set; }
         public ExperimentStatus ExperimentStatus { get; set; }

@@ -1,79 +1,75 @@
+using BulbPower.Business.Service;
+using BulbPower.Business.Service.IService;
+using BulbPower.DataAccess.Data;
+using BulbPower.DataAccess.Repository;
+using BulbPower.DataAccess.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
+using static BulbPower.Utility.Constants;
 
 namespace BulbPower.Tests
 {
     public class BulbManagerTests
     {
-        [Fact]
-        public void TestBulbManagerWithInput6and5()
+
+        private readonly ApplicationDbContext _testContext;
+        private readonly IExperimentRepository _repository;
+        private readonly IExperimentService _service;
+
+        public BulbManagerTests(ApplicationDbContext testContext)
         {
-            // Arrange
-            var input = new StringReader("6\n5\n");
-            Console.SetIn(input);
-            var output = new StringWriter();
-            Console.SetOut(output);
-            var expectedOutput =
-                "Bulb #1 --> OFF" + Environment.NewLine +
-                "Bulb #2 --> ON" + Environment.NewLine +
-                "Bulb #3 --> OFF" + Environment.NewLine +
-                "Bulb #4 --> OFF" + Environment.NewLine +
-                "Bulb #5 --> ON" + Environment.NewLine;
-
-            // Act
-            //Program.Main();
-            var consoleOutput = output.ToString();
-            consoleOutput = consoleOutput.Replace("Enter the number of people in the room: \r\nEnter the number of bulbs in the hallway: \r\n", "");
-
-            // Assert
-            Assert.Equal(expectedOutput.ToString(), consoleOutput);
+            _testContext = testContext;
+            _repository = new ExperimentRepository(_testContext);
+            _service = new ExperimentService(_repository);
         }
 
         [Fact]
-        public void TestBulbManagerWithInput3and3()
+        public void CreateExperiment_ShouldCreateNewExperiment()
         {
             // Arrange
-            var input = new StringReader("3\n3\n");
-            Console.SetIn(input);
-            var output = new StringWriter();
-            Console.SetOut(output);
-            var expectedOutput =
-                "Bulb #1 --> ON" + Environment.NewLine +
-                "Bulb #2 --> ON" + Environment.NewLine +
-                "Bulb #3 --> OFF" + Environment.NewLine;
+            int numberOfPeople = 10;
+            int numberOfBulbs = 20;
 
             // Act
-            //Program.Main();
-            var consoleOutput = output.ToString();
-            consoleOutput = consoleOutput.Replace("Enter the number of people in the room: \r\nEnter the number of bulbs in the hallway: \r\n", "");
+            var createdExperiment = _service.CreateExperiment(numberOfPeople, numberOfBulbs);
 
             // Assert
-            Assert.Equal(expectedOutput, consoleOutput);
+            Assert.NotNull(createdExperiment);
+            Assert.Equal(numberOfPeople, createdExperiment.NumberOfPeople);
+            Assert.Equal(numberOfBulbs, createdExperiment.NumberOfBulbs);
+            Assert.Equal(ExperimentStatus.NotStarted, createdExperiment.ExperimentStatus);
+            
         }
 
         [Fact]
-        public void TestBulbManagerWithInput4and7()
+        public void SendNextPerson_ShouldUpdateExperimentState()
         {
             // Arrange
-            var input = new StringReader("4\n7\n");
-            Console.SetIn(input);
-            var output = new StringWriter();
-            Console.SetOut(output);
-            var expectedOutput =
-                "Bulb #1 --> OFF" + Environment.NewLine +
-                "Bulb #2 --> ON" + Environment.NewLine +
-                "Bulb #3 --> OFF" + Environment.NewLine +
-                "Bulb #4 --> OFF" + Environment.NewLine +
-                "Bulb #5 --> ON" + Environment.NewLine +
-                "Bulb #6 --> ON" + Environment.NewLine +
-                "Bulb #7 --> ON" + Environment.NewLine;
+            var experiment = _service.CreateExperiment(10, 20);
 
             // Act
-            //Program.Main();
-            var consoleOutput = output.ToString();
-            consoleOutput = consoleOutput.Replace("Enter the number of people in the room: \r\nEnter the number of bulbs in the hallway: \r\n", "");
+            _service.SendNextPerson(experiment.ExperimentId);
 
             // Assert
-            Assert.Equal(expectedOutput, consoleOutput);
+            var updatedExperiment = _repository.GetExperiment(experiment.ExperimentId);
+            Assert.Equal(ExperimentStatus.InProgress, updatedExperiment.ExperimentStatus);
+            
+        }
+
+        [Fact]
+        public void ResetExperiment_ShouldResetExperimentState()
+        {
+            // Arrange
+            var experiment = _service.CreateExperiment(10, 20);
+
+            // Act
+            _service.SendNextPerson(experiment.ExperimentId);  
+            _service.ResetExperiment(experiment.ExperimentId);
+
+            // Assert
+            var resetExperiment = _repository.GetExperiment(experiment.ExperimentId);
+            Assert.Equal(ExperimentStatus.NotStarted, resetExperiment.ExperimentStatus);
+            
         }
     }
 }

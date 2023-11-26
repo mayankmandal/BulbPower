@@ -22,4 +22,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BulbPower.Business\BulbPower.Business.csproj" />
+    <ProjectReference Include="..\BulbPower.DataAccess\BulbPower.DataAccess.csproj" />
+    <ProjectReference Include="..\BulbPower.Models\BulbPower.Models.csproj" />
+    <ProjectReference Include="..\BulbPower.Utility\BulbPower.Utility.csproj" />
+    <ProjectReference Include="..\BulbPower.Web\BulbPower.Web.csproj" />
+  </ItemGroup>
+
 </Project>
